@@ -1,0 +1,304 @@
+/* ===================== MintPopup.css ===================== */
+
+/* Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Container with fixed size */
+.popup-box {
+  display: flex;
+  background: none;
+  padding: 0;
+  gap: 10px;
+}
+
+.popup-left {
+  width: 500px;
+  height: 500px;
+  background: transparent;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* ✅ viền mỏng nhẹ */
+}
+
+.popup-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup-left:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); /* giống với .nft-card:hover */
+  border: 1px solid rgba(255, 255, 255, 0.2);   /* tăng sáng viền khi hover */
+}
+/* ===================== Popup Right ===================== */
+.popup-right {
+  width: 400px;
+  height: 500px;
+  background: #1f1f1f;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: sans-serif;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+
+/* ===================== 1. Header Card ===================== */
+.popup-header-card {
+  background: #111;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column; /* 👈 tách thành 2 dòng */
+  gap: 8px;
+}
+
+.popup-header-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.popup-header-icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+.popup-network-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* hoặc cover nếu bạn muốn full */
+  display: block;
+}
+/* ===================== 2. Mint Stages Card ===================== */
+.popup-stages-card {
+  background: #2c2c2c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 0px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.popup-stages-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popup-stages-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.popup-stages-badge {
+  background: #00b894;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #000;
+  font-size: 13px;
+}
+
+.popup-stages-countdown-label {
+  font-weight: bold;
+  color: #fff;
+  font-size: 13px;
+}
+
+.popup-stages-countdown {
+  font-size: 13px;
+  color: #fff;
+}
+
+.popup-stages-price-line {
+  font-size: 14px;
+  color: #fff;
+  margin-top: 20px;
+}
+/* ===================== 3. Progress Card Price, Quantity, Mint Fee ===================== */
+.popup-price-card {
+  background: #2c2c2c;
+  border: 1px solid #00b894;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 0px;
+}
+.popup-mint-status-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Thẻ mini-card chung */
+.popup-mint-card {
+  background: #2c2c2c;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* CARD TRÁI: Live */
+.popup-mint-card.live-card {
+  width: 60px;
+  background: #4c4b4b;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 13px;
+  font-weight: 500;
+  color: #00ff88;
+}
+
+.popup-status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #00ff88;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* CARD PHẢI: Mint Progress */
+.popup-mint-card.progress-card {
+  flex: 1;
+}
+
+.popup-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+
+.popup-progress-bar {
+  height: 6px;
+  background-color: #444;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.popup-progress-bar-inner {
+  height: 100%;
+  background-color: #00b894;
+  border-radius: 4px;
+}
+.popup-price-quantity-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-price-label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.popup-price-label {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.popup-price-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.popup-amount-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-amount-row button {
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 6px;
+  background: #444;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.popup-amount-row input {
+  width: 40px;
+  height: 35px;
+  border: none;
+  border-radius: 6px;
+  background: #000;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  -moz-appearance: textfield;
+}
+
+.popup-amount-row input::-webkit-outer-spin-button,
+.popup-amount-row input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.popup-mint-fee-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* ===================== Mint Button ===================== */
+.popup-action {
+  margin-top: 0px;
+  padding-bottom: 0px;
+}
+
+.popup-action button {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  background: #00b894;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.popup-action button:hover:not(:disabled) {
+  background: #00b894;
+}
+
+.popup-action button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+

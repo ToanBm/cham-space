@@ -1,0 +1,19 @@
+{
+  "name": "Mega Sparks #15",
+  "description": "Electrifying pioneers of hyperscaled Ethereum frontier.",
+  "image": "https://bafybeialw54iy4z2pvyw44soahr56v3db45fx4rabewf34365yu54aa4dm.ipfs.w3s.link/Mega%20Sparks.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Mega Sparks"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

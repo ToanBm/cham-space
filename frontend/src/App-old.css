@@ -1,0 +1,782 @@
+/* ===================== Base ===================== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-size: 14px;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  gap: 10px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+/* ========================================= MARKET PANEL (MarketPanel.js) =================================== */
+.left-panel {
+  width: 82%;
+  height: 100%; /* 👈 THÊM: để panel cao bằng container */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #2c2c2c;
+  border-radius: 0px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.nft-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nft-card {
+  background-color: #3a3a3a;
+  border-radius: 8px;
+  padding: 0px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* ✅ viền mỏng nhẹ */
+  transition: box-shadow 0.3s;
+}
+
+.nft-card:hover {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);   /* tăng sáng viền khi hover */
+}
+
+.nft-image-wrapper {
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+}
+
+.nft-image {
+  width: 100%;
+  aspect-ratio: 1 / 0.75;
+  object-fit: cover;
+  display: block;
+}
+
+.nft-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  margin-top: 2px;
+}
+
+.network-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background: none;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
+  z-index: 2;
+}
+/* ----------- <<< ARROW >>>--------------*/
+.nft-grid-wrapper {
+  position: relative;
+}
+
+/* Card container cho nút mũi tên */
+.arrow-card {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2c2c2c;
+  border-radius: 999px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Mũi tên trong card */
+.arrow-button {
+  background: #00b894;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-button:hover {
+  background: #00b894;
+}
+
+/* Vị trí trái/phải */
+.arrow-card.left {
+  left: -20px;
+}
+
+.arrow-card.right {
+  right: -20px;
+}
+/* -----------PRICE, ITEMS, MINTED--------------*/
+.nft-info-labels {
+  font-size: 9px;
+  font-weight: 500;
+  color: #aaa;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  margin: 4px 0;
+}
+
+.nft-info-values {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  margin-bottom: 6px;
+}
+/* ------------Top Bar-------------*/
+.page-control-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #2c2c2c;
+  padding: 0px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+.page-tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.page-tab {
+  background: transparent;
+  border: 1px solid #444;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-tab:hover {
+  background-color: #444;
+}
+.page-tab.active {
+  background-color: #111;
+}
+.spacer {
+  flex-grow: 1; /* 👈 đẩy phần search-box sang phải */
+}
+.search-box input {
+  width: 400px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #111;
+  border: 1px solid #333;
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+}
+/* ------------Chain Tab------------- */
+.chain-tab-card {
+  background-color: #2c2c2c;
+  border-radius: 6px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chain-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chain-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 6px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chain-tab.active {
+  background-color: #00b894;
+  color: #000;
+}
+
+.chain-tab img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* Label text trong tab — chỉ hiển thị nếu có */
+.chain-label {
+  display: inline;
+}
+
+.chain-tab:not(.active):not(:first-child) .chain-label {
+  display: none;
+}
+
+/* -----------Countdown--------------*/
+.nft-status-box {
+  width: 90%;
+  margin: 0 auto 10px auto;
+  padding: 10px 0; /* 👈 Padding trên + dưới */
+  background-color: #111;
+  border-radius: 6px;
+  border: 1px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-dot {
+  font-size: 13px;
+  font-weight: 700;
+  color: limegreen;
+}
+
+.status-label {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.status-time {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+/* -----------Mint Button--------------*/
+.nft-mint-overlay {
+  position: absolute;
+  bottom: 10px; /* 👈 cách đáy đúng 8px */
+  width: 100%;
+  display: none;
+  text-align: center;
+  z-index: 2;
+}
+
+.nft-card:hover .nft-mint-overlay {
+  display: block;
+}
+
+.mint-button {
+  width: 90%;
+  margin: 0 auto;
+  padding: 12px 0;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #00b894;
+  border: none;
+  color: #1e1e1e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ===================== Comming Soon ===================== */
+.nft-card.empty {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1c1c1c;
+  /* hoặc giữ nguyên nếu đã có */
+  border: 1px dashed #a10a0a;
+  /* gợi ý để phân biệt card trống */
+  border-radius: 8px;
+}
+
+.empty-message {
+  color: #666;
+  text-align: center;
+}
+
+/* ============================================== USER PANEL ============================================== */
+.right-panel {
+  width: 18%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
+  /* 👈 đẩy footer xuống đáy */
+}
+
+.network-panel,
+.footer-panel {
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.network-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 10px;
+}
+
+/* ===== network connect ===== */
+.network-row {
+  display: flex;
+  gap: 10px;
+}
+
+.wallet-button {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 6px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s;
+}
+  
+.wallet-button:hover {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Custom Network Selector ===== */
+.custom-dropdown {
+  position: relative;
+  width: 70px;
+  height: 36px;
+  background-color: #444;
+  border-radius: 6px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s;
+}
+  
+.custom-dropdown:hover {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-arrow {
+  font-size: 30px;
+  color: white;
+  margin-left: 6px;
+  user-select: none;
+  pointer-events: none;
+}
+.custom-dropdown .selected {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-network-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #222;
+  border: 1px solid #555;
+  border-radius: 6px;
+  z-index: 999;
+  padding: 8px 0;
+  min-width: 180px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.dropdown-item img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #333;
+}
+
+.dropdown-item.disconnect {
+  color: #f55;
+}
+
+/* ===== Balance box ===== */
+
+.balance-box {
+  height: 36px;
+  line-height: 40px;
+  background-color: #111;
+  color: #fff;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+  
+.balance-box:hover {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.native-balance {
+  text-align: center;
+  color: #ccc;
+}
+
+.faucet-button {
+  width: 100%;
+  height: 36px;
+  padding: 0px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+  
+.faucet-button:hover {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===================== USER NFT ===================== */
+.user-panel {
+  background-color: #2c2c2c;
+  position: relative;
+  display: flex;
+  border-radius: 0px;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10px 10px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.user-nft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.user-nft-grid .nft-card {
+  position: relative;
+  background-color: #3a3a3a;
+  border-radius: 8px;
+  padding: 0px;
+  text-align: center;
+  font-size: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  aspect-ratio: 1 / 1;
+}
+
+.user-nft-grid .nft-card:hover {
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.user-nft-grid .nft-card .nft-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.user-nft-grid .nft-card .nft-image-wrapper .nft-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0px;
+}
+
+.user-nft-grid .nft-name {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  width: 100%;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  background: transparent;
+  padding: 4px 0;
+  z-index: 2;
+}
+
+.user-nft-grid .nft-id {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.8);
+  color: black;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.user-nft-grid .nft-card button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.user-nft-grid .nft-card:hover button {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.user-nft-grid .nft-card.empty-slot {
+  visibility: hidden;
+}
+
+.pagination.fixed-bottom {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.pagination.fixed-bottom>* {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+.badge-listed {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #00cec9;
+  color: black;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.cancel-button,
+.list-button {
+  background-color: #00b894;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ff7675;
+}
+/* ===================== FOOTER ===================== */
+.footer-panel {
+  flex: 0 0 15%;
+  text-align: center;
+  color: #aaa;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #ccc;
+  text-align: center;
+}
+
+.name-app {
+  font-weight: bold;
+  font-size: 32px;
+  color: #fff;
+}
+.line-app {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+}
+
+.line-version {
+  font-size: 14px;
+  color: #bbb;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.social-button {
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.social-button:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+.social-button img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(1.2);
+}
+
+
+/* ===================== Popup List NFT (ListNFT.js) ===================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #2c2c2c;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.modal-content h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 6px;
+  background-color: #444;
+  color: white;
+  font-size: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-actions button:first-child {
+  background-color: #ffcc00;
+  color: #1e1e1e;
+}
+
+.cancel-button {
+  background-color: #666;
+  color: white;
+}

@@ -1,0 +1,181 @@
+
+/* ============== Listing Popup ============= */
+.trade-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1200px;
+  height: 800px;
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  z-index: 9999;
+}
+
+/* ============== Header ============= */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  border: 1px solid #444;
+  padding: 0px;
+}
+
+.thumbnail-square {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #333;
+}
+
+.thumbnail-square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-card.compact {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+  gap: 12px;
+}
+
+.text-info h2 {
+  margin: 0;
+  font-size: 20px;
+  color: white;
+}
+
+.text-info p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ccc;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ============== View + tool bar ============= */
+
+.trade-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.trade-controls input {
+  width: 60%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2e2e2e;
+  color: white;
+}
+
+.view-toggle button {
+  margin-left: 8px;
+  background: #333;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ============== NFT + Buy button ============= */
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.nft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.trade-nft-card {
+  background: #2e2e2e;
+  padding: 0px;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  transition: border 0.3s, box-shadow 0.3s;
+  border: 1px solid #444;
+  position: relative;
+}
+
+.trade-nft-card:hover {
+  border-color: #888;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.trade-nft-image {
+  width: 100%;
+}
+
+.trade-nft-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 14px;
+  color: white;
+  margin-top: 0%;
+  font-weight: bold;
+}
+
+.token-symbol {
+  font-size: 14px;
+  color: #ccc;
+  margin-left: 4px;
+  font-weight: normal;
+}
+
+.trade-nft-action {
+  margin-top: 8px;
+  padding: 0px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.trade-nft-card:hover .trade-nft-action {
+  opacity: 1;
+}
+
+.trade-nft-action button {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  background: #00b894;
+  color: #000;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+
+.trade-nft-action button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}

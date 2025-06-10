@@ -1,0 +1,19 @@
+{
+  "name": "Lightwarp Nexus #100",
+  "description": "Protocols pushing Ethereum beyond light-speed limits.",
+  "image": "https://bafybeiee5o52pud7fojhztvk2dumpaxa3mk5saeggql6zjkx5iyalcey3a.ipfs.w3s.link/Lightwarp%20Nexus.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Lightwarp Nexus"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

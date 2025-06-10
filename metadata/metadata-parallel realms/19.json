@@ -1,0 +1,19 @@
+{
+  "name": "Parallel Realms #19",
+  "description": "Futuristic shards from Monad’s compute core",
+  "image": "https://bafybeieirtuvfvsfdr5vykhlhc3z56ypeu6nyshdqguuswgvxf3qie5sna.ipfs.w3s.link/Parallel%20Realms.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Parallel Realms"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

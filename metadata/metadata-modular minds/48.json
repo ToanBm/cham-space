@@ -1,0 +1,19 @@
+{
+  "name": "Modular Minds #48",
+  "description": "AI agents powered by zero-knowledge execution",
+  "image": "https://bafybeia26vwlofz4pwhbg4ndmiygsdwzsz57f6xny5svfsflpfjy6yx3su.ipfs.w3s.link/Modular%20Minds.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Modular Minds"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

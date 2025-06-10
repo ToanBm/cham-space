@@ -1,0 +1,19 @@
+{
+  "name": "Lightnode Legion #53",
+  "description": "Elite nodes powering Monad’s fast finality",
+  "image": "https://bafybeih6mab25tv6e324ekyiqho45xerzmgdsdkjxs2zjpj65uu4ayjk7u.ipfs.w3s.link/Lightnode%20Legion.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Lightnode Legion"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

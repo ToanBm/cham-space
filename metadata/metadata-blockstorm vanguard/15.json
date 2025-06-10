@@ -1,0 +1,19 @@
+{
+  "name": "Blockstorm Vanguard #15",
+  "description": "Pioneers of Monad's blazing-speed frontier",
+  "image": "https://bafybeiceckyavv7vou7g5m2hsin4ih7pbfjgnw6jivrjuzzio425dlid7u.ipfs.w3s.link/Blockstorm%20Vanguard.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Blockstorm Vanguard"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

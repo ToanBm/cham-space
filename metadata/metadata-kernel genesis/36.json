@@ -1,0 +1,19 @@
+{
+  "name": "Kernel Genesis #36",
+  "description": "Foundational nodes of the modular AI infrastructure",
+  "image": "https://bafybeidlvausdpb3wcsiza2kolkwmjvysc322f4u2lxvskrirbgac3k6yi.ipfs.w3s.link/Kernel%20Genesis.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Kernel Genesis"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Lightbound Explorers #32",
+  "description": "Guardians of modular rollup realms",
+  "image": "https://bafybeiaixilx363wlkf7ujj64eqqsa4h455lixrj7ktlq3l5374iwre7kq.ipfs.w3s.link/Lightbound%20Explorers.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Lightbound Explorers"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}

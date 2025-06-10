@@ -1,0 +1,19 @@
+{
+  "name": "Celestial Architects #21",
+  "description": "Builders of scalable Pharos universes",
+  "image": "https://bafybeie3sb7cwsxcuorvpp4v6en4b22dn7lqj7kpvqtmhba73ohm3dsfae.ipfs.w3s.link/Celestial%20Architects.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Celestial Architects"
+    },
+    {
+      "trait_type": "Mask",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Cyberpunk"
+    }
+  ]
+}
