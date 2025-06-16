@@ -9,6 +9,7 @@ import {
 import { CHAINS } from "../utils/chains";
 import CustomNetworkSelector from "./CustomNetworkSelector";
 import { ethers } from "ethers";
+import ConnectWalletPopup from "./ConnectWalletPopup";
 import FaucetPopup from "./FaucetPopup";
 
 let lastFetchTime = 0;
@@ -18,6 +19,7 @@ function WalletPanel({ onWalletConnected }) {
     const [walletAddress, setWalletAddress] = useState("");
     const [selectedChain, setSelectedChain] = useState(() => localStorage.getItem("selectedChain") || "MONAD");
     const [balance, setBalance] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
     const [showFaucet, setShowFaucet] = useState(false);
 
     useEffect(() => {
@@ -58,8 +60,8 @@ function WalletPanel({ onWalletConnected }) {
         }
     }
 
-    async function connect() {
-        const wallet = await connectWallet(); // dùng default (MetaMask, OKX)
+    async function connect(walletKey = "metamask") {
+        const wallet = await connectWallet(walletKey);
         if (wallet) {
             setSigner(wallet.signer);
             const address = await wallet.signer.getAddress();
@@ -110,7 +112,7 @@ function WalletPanel({ onWalletConnected }) {
         <div className="network-panel">
             <div className="network-row">
                 {!signer ? (
-                    <button className="wallet-button" onClick={connect}>
+                    <button className="wallet-button" onClick={() => setShowPopup(true)}>
                         Connect Wallet
                     </button>
                 ) : (
@@ -130,6 +132,16 @@ function WalletPanel({ onWalletConnected }) {
             </div>
 
             <button className="faucet-button" onClick={() => setShowFaucet(true)}>Faucet</button>
+
+            {showPopup && (
+                <ConnectWalletPopup
+                    onClose={() => setShowPopup(false)}
+                    onSelect={async (walletKey) => {
+                        setShowPopup(false);
+                        await connect(walletKey);
+                    }}
+                />
+            )}
 
             {showFaucet && (
                 <FaucetPopup
