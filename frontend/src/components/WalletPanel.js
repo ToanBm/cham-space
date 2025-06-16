@@ -23,10 +23,24 @@ function WalletPanel({ onWalletConnected }) {
     useEffect(() => {
         if (typeof window === "undefined") return;
 
-        reconnect();
+        let attempts = 0;
+        const maxAttempts = 10;
 
-        const eth = window.ethereum;
-        if (eth) {
+        const waitForEthereum = async () => {
+            while (!window.ethereum && attempts < maxAttempts) {
+                await new Promise((res) => setTimeout(res, 200));
+                attempts++;
+            }
+            if (window.ethereum) {
+                reconnect(); // chỉ gọi khi đã có ví
+                setupListeners();
+            }
+        };
+
+        const setupListeners = () => {
+            const eth = window.ethereum;
+            if (!eth) return;
+
             const handleAccountsChanged = (accounts) => {
                 if (accounts.length === 0) disconnect();
                 else connect();
@@ -40,12 +54,15 @@ function WalletPanel({ onWalletConnected }) {
             eth.on("accountsChanged", handleAccountsChanged);
             eth.on("chainChanged", handleChainChanged);
 
+            // cleanup
             return () => {
                 eth.removeListener("accountsChanged", handleAccountsChanged);
                 eth.removeListener("chainChanged", handleChainChanged);
             };
-        }
-    }, []);
+        };
+
+        waitForEthereum();
+    }, []);  
 
     async function reconnect() {
         const wallet = await getExistingWallet();
