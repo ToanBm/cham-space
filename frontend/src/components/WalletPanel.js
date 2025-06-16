@@ -16,11 +16,13 @@ let lastFetchTime = 0;
 function WalletPanel({ onWalletConnected }) {
     const [signer, setSigner] = useState(null);
     const [walletAddress, setWalletAddress] = useState("");
-    const [selectedChain, setSelectedChain] = useState(() => localStorage.getItem("selectedChain") || "MONAD");
+    const [selectedChain, setSelectedChain] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("selectedChain") : "MONAD") || "MONAD");
     const [balance, setBalance] = useState(null);
     const [showFaucet, setShowFaucet] = useState(false);
 
     useEffect(() => {
+        if (typeof window === "undefined") return;
+
         reconnect();
 
         const eth = window.ethereum;
