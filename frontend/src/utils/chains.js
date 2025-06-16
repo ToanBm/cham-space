@@ -2,9 +2,10 @@ export const CHAINS = {
   MONAD: {
     chainId: 10143,
     chainName: "Monad Testnet",
-    rpcUrls: ["https://monad-testnet.g.alchemy.com/v2/nydNBvxduej2ywCKpfFbV9J9bR2z38c4"],
+    rpcUrls: ["https://testnet-rpc.monad.xyz"],
     nativeCurrency: { name: "Monad", symbol: "MON", decimals: 18 },
     blockExplorerUrls: ["https://testnet.monadexplorer.com/"],
+    faucetUrl: ["https://faucet.monad.xyz/"],
     networkIcon: "/icon/monad.png"
   },
   SOMNIA: {
