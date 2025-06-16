@@ -31,7 +31,6 @@ function CustomNetworkSelector({ selectedChain, onSwitch }) {
                 />
                 <span className="dropdown-arrow">▾</span>
             </div>
-
             {open && (
                 <div className="dropdown-list">
                     {Object.entries(CHAINS).map(([key, chain]) => (

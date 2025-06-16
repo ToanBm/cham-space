@@ -173,6 +173,17 @@ body {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+.section-title.with-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
 .section-title {
   font-size: 18px;
   font-weight: bold;

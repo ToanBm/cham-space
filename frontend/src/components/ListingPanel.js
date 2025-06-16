@@ -55,10 +55,12 @@ function ListingPanel({ listingMap }) {
             <div className="nft-name">{col.name}</div>
             <div className="nft-info-labels">
               <div>Floor</div>
+              <span></span>        {/* ô trống */}
               <div>Volume</div>
             </div>
             <div className="nft-info-values">
               <div>{col.floor}</div>
+              <span></span>        {/* ô trống */}
               <div>{col.volume}</div>
             </div>
           </div>

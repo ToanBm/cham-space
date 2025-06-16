@@ -118,7 +118,10 @@ function MarketPanel({ signer }) {
     <div className="market-panel">
       <div className="top-bar">
         <div className="page-control-card">
-          <h2 className="section-title">MINTSPACE</h2>
+          <h2 className="section-title with-logo">
+            <img src="/icon/logo.png" alt="" className="section-logo" />
+            ChamSpace
+          </h2>
           <div className="page-tabs">
             <button
               className={`page-tab ${activeTab === "Market" ? "active" : ""}`}
@@ -130,14 +133,9 @@ function MarketPanel({ signer }) {
               className={`page-tab ${activeTab === "Create" ? "active" : ""}`}
               onClick={() => setActiveTab("Create")}
             >
-              Create
+              Create (Soon...)
             </button>
-            <button
-              className={`page-tab ${activeTab === "Stake" ? "active" : ""}`}
-              onClick={() => setActiveTab("Stake")}
-            >
-              Stake
-            </button>
+          
           </div>
           <div className="spacer" />
           <div className="search-box">

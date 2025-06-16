@@ -1,21 +1,24 @@
 import { BrowserProvider } from "ethers";
 
-// ✅ Kết nối ví, chỉ yêu cầu nếu chưa có tài khoản kết nối
-export async function connectWallet() {
-  if (!window.ethereum) {
-    alert("Please install MetaMask or OKX Wallet!");
+// Không kiểm tra flag nữa — dùng thẳng window.ethereum
+function getEthereum() {
+  return window.ethereum || null;
+}
+
+export async function connectWallet(walletKey = "metamask") {
+  const eth = getEthereum();
+
+  if (!eth) {
+    alert("❌ No Ethereum provider found");
     return null;
   }
 
   try {
-    // Kiểm tra nếu đã từng kết nối, không gọi eth_requestAccounts nữa
-    const accounts = await window.ethereum.request({ method: "eth_accounts" });
-    if (accounts.length === 0) {
-      // Chỉ gọi yêu cầu nếu chưa có kết nối
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-    }
+    console.log(`🔌 Connecting to wallet: ${walletKey}`);
+    const accounts = await eth.request({ method: "eth_requestAccounts" });
+    if (!accounts || accounts.length === 0) throw new Error("No accounts returned");
 
-    const provider = new BrowserProvider(window.ethereum);
+    const provider = new BrowserProvider(eth);
     const signer = await provider.getSigner();
     const network = await provider.getNetwork();
 
@@ -25,21 +28,21 @@ export async function connectWallet() {
       address: await signer.getAddress(),
       chainId: Number(network.chainId),
     };
-  } catch (error) {
-    console.error("connectWallet error:", error);
-    alert("❌ Wallet connection failed. Please unlock your wallet and try again.");
+  } catch (err) {
+    console.error("connectWallet error:", err);
+    alert("❌ Connection failed");
     return null;
   }
 }
 
-// ✅ Lấy lại ví đã kết nối (không hiện popup)
 export async function getExistingWallet() {
-  if (!window.ethereum) return null;
+  const eth = getEthereum();
+  if (!eth) return null;
 
-  const accounts = await window.ethereum.request({ method: "eth_accounts" });
+  const accounts = await eth.request({ method: "eth_accounts" });
   if (accounts.length === 0) return null;
 
-  const provider = new BrowserProvider(window.ethereum);
+  const provider = new BrowserProvider(eth);
   const signer = await provider.getSigner();
   const network = await provider.getNetwork();
 
@@ -51,10 +54,16 @@ export async function getExistingWallet() {
   };
 }
 
-// ✅ Chuyển network nếu chưa đúng (ví dụ từ Ethereum sang Monad testnet)
+export function disconnectWallet() {
+  console.log("🔌 Disconnected");
+}
+
 export async function switchNetwork(chainInfo) {
+  const eth = getEthereum();
+  if (!eth) return;
+
   try {
-    await window.ethereum.request({
+    await eth.request({
       method: "wallet_addEthereumChain",
       params: [{
         chainId: "0x" + chainInfo.chainId.toString(16),
@@ -64,13 +73,8 @@ export async function switchNetwork(chainInfo) {
         blockExplorerUrls: chainInfo.blockExplorerUrls,
       }],
     });
-  } catch (error) {
-    console.error("switchNetwork error:", error);
-    alert("Failed to switch network!");
+  } catch (err) {
+    console.error("switchNetwork error:", err);
+    alert("❌ Failed to switch network");
   }
-}
-
-// ❌ Không cần ngắt ví thật, chỉ xoá local info
-export function disconnectWallet() {
-  console.log("🔌 Disconnected frontend only");
 }

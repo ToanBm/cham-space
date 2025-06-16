@@ -1,0 +1,76 @@
+.connect-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.connect-wallet-popup {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 20px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: sans-serif;
+    color: #fff;
+}
+
+.connect-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.connect-popup-close {
+    border: none;
+    background: transparent;
+    font-size: 30px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.connect-wallet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.connect-wallet-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #2c2c2c;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.connect-wallet-item:hover {
+    background: #3a3a3a;
+}
+
+.connect-wallet-item img {
+    width: 24px;
+    height: 24px;
+}
+
+.connect-more-wallets {
+    background: #333;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
