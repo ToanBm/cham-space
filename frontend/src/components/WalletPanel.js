@@ -16,53 +16,52 @@ let lastFetchTime = 0;
 function WalletPanel({ onWalletConnected }) {
     const [signer, setSigner] = useState(null);
     const [walletAddress, setWalletAddress] = useState("");
-    const [selectedChain, setSelectedChain] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("selectedChain") : "MONAD") || "MONAD");
+    const [selectedChain, setSelectedChain] = useState("MONAD");
     const [balance, setBalance] = useState(null);
     const [showFaucet, setShowFaucet] = useState(false);
 
+    // ✅ Chỉ lấy localStorage trong browser
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const saved = localStorage.getItem("selectedChain");
+            if (saved) setSelectedChain(saved);
+        }
+    }, []);
+
+    // ✅ Đợi ví inject xong rồi mới reconnect + setup listeners
     useEffect(() => {
         if (typeof window === "undefined") return;
 
-        let attempts = 0;
-        const maxAttempts = 10;
+        let retries = 0;
+        const maxRetries = 10;
+        let listenersAttached = false;
 
-        const waitForEthereum = async () => {
-            while (!window.ethereum && attempts < maxAttempts) {
-                await new Promise((res) => setTimeout(res, 200));
-                attempts++;
-            }
-            if (window.ethereum) {
-                reconnect(); // chỉ gọi khi đã có ví
-                setupListeners();
+        const waitForEthereum = () => {
+            const eth = window.okxwallet || window.ethereum;
+            if (eth && eth.request && !listenersAttached) {
+                reconnect();
+                setupListeners(eth);
+                listenersAttached = true;
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(waitForEthereum, 300);
             }
         };
 
-        const setupListeners = () => {
-            const eth = window.ethereum;
-            if (!eth) return;
-
-            const handleAccountsChanged = (accounts) => {
+        const setupListeners = (eth) => {
+            eth.on("accountsChanged", (accounts) => {
                 if (accounts.length === 0) disconnect();
                 else connect();
-            };
+            });
 
-            const handleChainChanged = async (_chainId) => {
+            eth.on("chainChanged", async (_chainId) => {
                 console.log("🔁 Chain changed:", _chainId);
                 await reconnect();
-            };
-
-            eth.on("accountsChanged", handleAccountsChanged);
-            eth.on("chainChanged", handleChainChanged);
-
-            // cleanup
-            return () => {
-                eth.removeListener("accountsChanged", handleAccountsChanged);
-                eth.removeListener("chainChanged", handleChainChanged);
-            };
+            });
         };
 
         waitForEthereum();
-    }, []);  
+    }, []);
 
     async function reconnect() {
         const wallet = await getExistingWallet();
@@ -78,7 +77,7 @@ function WalletPanel({ onWalletConnected }) {
     }
 
     async function connect() {
-        const wallet = await connectWallet(); // dùng default (MetaMask, OKX)
+        const wallet = await connectWallet();
         if (wallet) {
             setSigner(wallet.signer);
             const address = await wallet.signer.getAddress();
@@ -112,6 +111,11 @@ function WalletPanel({ onWalletConnected }) {
     }
 
     async function loadBalance(provider, address) {
+        if (!provider || !address) {
+            console.warn("⚠️ Missing provider or address in loadBalance");
+            return;
+        }
+
         const now = Date.now();
         if (now - lastFetchTime < 1000) return;
         lastFetchTime = now;
