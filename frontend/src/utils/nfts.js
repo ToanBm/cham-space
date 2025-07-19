@@ -13,7 +13,7 @@ export const nfts = [
     nativeSymbol: "MON",
     supply: 100,
     mintStart: "2025-05-05T02:00:00Z", // UTC
-    mintEnd: "2025-06-30T02:00:00Z"
+    mintEnd: "2025-09-30T02:00:00Z"
   },
   {
     name: "Parallel Realms",
