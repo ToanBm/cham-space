@@ -11,18 +11,20 @@ function FaucetPopup({ onClose }) {
                     <button className="connect-popup-close" onClick={onClose}>×</button>
                 </div>
                 <div className="connect-wallet-list">
-                    {Object.entries(CHAINS).map(([key, chain]) => (
-                        <a
-                            key={key}
-                            href={chain.faucetUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="connect-wallet-item"
-                        >
-                            <span>{chain.chainName}</span>
-                            <img src={chain.networkIcon} alt={chain.chainName} />
-                        </a>
-                    ))}
+                    {Object.entries(CHAINS)
+                        .filter(([key]) => ["MONAD", "SOMNIA", "OG"].includes(key))
+                        .map(([key, chain]) => (
+                            <a
+                                key={key}
+                                href={chain.faucetUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="connect-wallet-item"
+                            >
+                                <span>{chain.chainName}</span>
+                                <img src={chain.networkIcon} alt={chain.chainName} />
+                            </a>
+                        ))}
                 </div>
                 <div className="connect-more-wallets" onClick={onClose}>Close</div>
             </div>

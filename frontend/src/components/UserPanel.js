@@ -7,7 +7,7 @@ function UserNFTs({ signer }) {
   const [nfts, setNfts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedNFT, setSelectedNFT] = useState(null);
-  const nftsPerPage = 4;
+  const nftsPerPage = 6;
 
   useEffect(() => {
     loadAllNFTs();
@@ -17,25 +17,36 @@ function UserNFTs({ signer }) {
     const address = await signer.getAddress();
     const allNfts = [];
 
-    for (const nft of nftList) {
+    // Chạy song song cho từng contract
+    await Promise.all(nftList.map(async (nft) => {
       try {
         const contract = new Contract(nft.contract, nft.abi, signer);
         const balance = await contract.balanceOf(address);
 
-        for (let i = 0; i < balance; i++) {
-          const tokenId = await contract.tokenOfOwnerByIndex(address, i);
-          const tokenUri = await contract.tokenURI(tokenId);
+        if (balance === 0) return; // Skip nếu không có NFT
 
+        // Lấy tất cả tokenId song song
+        const tokenIdPromises = [];
+        for (let i = 0; i < balance; i++) {
+          tokenIdPromises.push(contract.tokenOfOwnerByIndex(address, i));
+        }
+        const tokenIds = await Promise.all(tokenIdPromises);
+
+        // Lấy metadata và salePrice song song cho từng token
+        await Promise.all(tokenIds.map(async (tokenId) => {
           try {
+            const [tokenUri, salePrice] = await Promise.all([
+              contract.tokenURI(tokenId),
+              contract.salePrice(tokenId)
+            ]);
+
             const res = await fetch(tokenUri);
-            if (!res.ok) continue;
+            if (!res.ok) return;
             const metadata = await res.json();
 
-            const salePrice = await contract.salePrice(tokenId); // BigInt (ethers@6)
             const isListed = salePrice !== 0n;
             const fullName = metadata.name || nft.name;
             const nameOnly = fullName.replace(/\s*#\d+$/, "");
-
 
             allNfts.push({
               id: tokenId.toString(),
@@ -50,14 +61,14 @@ function UserNFTs({ signer }) {
               price: nft.price,
               isListed,
             });
-          } catch {
-            continue;
+          } catch (error) {
+            console.warn(`Failed to load token ${tokenId} from ${nft.contract}:`, error);
           }
-        }
-      } catch {
-        continue;
+        }));
+      } catch (error) {
+        console.warn(`Failed to load contract ${nft.contract}:`, error);
       }
-    }
+    }));
 
     setNfts(allNfts);
   }

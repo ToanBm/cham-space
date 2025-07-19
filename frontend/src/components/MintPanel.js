@@ -109,9 +109,7 @@ function MarketPanel({ signer }) {
     ALL: { icon: "/icon/monad.png", label: "All Chains" },
     MONAD: { icon: "/icon/monad.png", label: "Monad" },
     SOMNIA: { icon: "/icon/somnia.png", label: "Somnia" },
-    PHAROS: { icon: "/icon/pharos.png", label: "Pharos" },
     OG: { icon: "/icon/og.png", label: "0G-Galileo" },
-    MEGA: { icon: "/icon/megaeth.png", label: "MEGA Testnet" },
   };
 
   return (

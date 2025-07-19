@@ -100,6 +100,7 @@ function WalletPanel({ onWalletConnected }) {
             disconnect();
             return;
         }
+        if (!["MONAD", "SOMNIA", "OG"].includes(chainKey)) return;
         const chainInfo = CHAINS[chainKey];
         await switchNetwork(chainInfo);
         localStorage.setItem("selectedChain", chainKey);

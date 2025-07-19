@@ -33,12 +33,14 @@ function CustomNetworkSelector({ selectedChain, onSwitch }) {
             </div>
             {open && (
                 <div className="dropdown-list">
-                    {Object.entries(CHAINS).map(([key, chain]) => (
-                        <div key={key} className="dropdown-item" onClick={() => handleSelect(key)}>
-                            <img src={chain.networkIcon} alt={key} />
-                            <span>{chain.chainName}</span>
-                        </div>
-                    ))}
+                    {Object.entries(CHAINS)
+                        .filter(([key]) => ["MONAD", "SOMNIA", "OG"].includes(key))
+                        .map(([key, chain]) => (
+                            <div key={key} className="dropdown-item" onClick={() => handleSelect(key)}>
+                                <img src={chain.networkIcon} alt={key} />
+                                <span>{chain.chainName}</span>
+                            </div>
+                        ))}
                     <div className="dropdown-item disconnect" onClick={() => handleSelect("DISCONNECT")}>Disconnect Wallet</div>
                 </div>
             )}
