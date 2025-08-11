@@ -110,6 +110,7 @@ function MarketPanel({ signer }) {
     MONAD: { icon: "/icon/monad.png", label: "Monad" },
     SOMNIA: { icon: "/icon/somnia.png", label: "Somnia" },
     OG: { icon: "/icon/og.png", label: "0G-Galileo" },
+    CITREA: { icon: "/icon/citrea.png", label: "Citrea" },
   };
 
   return (

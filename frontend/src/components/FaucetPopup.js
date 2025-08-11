@@ -12,7 +12,7 @@ function FaucetPopup({ onClose }) {
                 </div>
                 <div className="connect-wallet-list">
                     {Object.entries(CHAINS)
-                        .filter(([key]) => ["MONAD", "SOMNIA", "OG"].includes(key))
+                        .filter(([key]) => ["MONAD", "SOMNIA", "OG", "CITREA"].includes(key))
                         .map(([key, chain]) => (
                             <a
                                 key={key}

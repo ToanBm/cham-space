@@ -34,7 +34,7 @@ function CustomNetworkSelector({ selectedChain, onSwitch }) {
             {open && (
                 <div className="dropdown-list">
                     {Object.entries(CHAINS)
-                        .filter(([key]) => ["MONAD", "SOMNIA", "OG"].includes(key))
+                        .filter(([key]) => ["MONAD", "SOMNIA", "OG", "CITREA"].includes(key))
                         .map(([key, chain]) => (
                             <div key={key} className="dropdown-item" onClick={() => handleSelect(key)}>
                                 <img src={chain.networkIcon} alt={key} />

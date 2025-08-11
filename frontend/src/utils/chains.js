@@ -25,5 +25,14 @@ export const CHAINS = {
     blockExplorerUrls: ["https://chainscan-galileo.0g.ai/"],
     faucetUrl: ["https://faucet.0g.ai/"],
     networkIcon: "/icon/og.png"
+  },
+  CITREA: {
+    chainId: 5115,
+    chainName: "Citrea Testnet",
+    rpcUrls: ["https://rpc.testnet.citrea.xyz"],
+    nativeCurrency: { name: "Citrea Bitcoin", symbol: "cBTC", decimals: 18 },
+    blockExplorerUrls: ["https://explorer.testnet.citrea.xyz"],
+    faucetUrl: ["https://faucet.citrea.xyz/"],
+    networkIcon: "/icon/citrea.png"
   }
 };
