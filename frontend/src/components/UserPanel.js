@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserProvider, Contract } from "ethers";
 import { nfts as nftList } from "../utils/nfts";
+import { ensureCorrectNetwork } from "../utils/connectWallet";
 import UserPopup from "./UserPopup";
 
 function UserNFTs({ signer }) {
@@ -75,6 +76,10 @@ function UserNFTs({ signer }) {
 
   async function handleCancelListing(nft) {
     try {
+      // Step 1: Ensure correct network before canceling listing
+      await ensureCorrectNetwork(nft.chain);
+      
+      // Step 2: Proceed with canceling listing
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new Contract(nft.contract, nft.abi, signer);
@@ -83,7 +88,14 @@ function UserNFTs({ signer }) {
       alert("✅ Cancelled listing for token " + nft.tokenId);
       await loadAllNFTs(); // ✅ bắt buộc phải await
     } catch (err) {
-      alert("❌ Cancel failed: " + (err?.info?.error?.message || err.message));
+      console.error("❌ Cancel failed:", err);
+      
+      // Show specific error message for network issues
+      if (err.message.includes("network")) {
+        alert("⚠️ " + err.message);
+      } else {
+        alert("❌ Cancel failed: " + (err?.info?.error?.message || err.message));
+      }
     }
   }
 
@@ -92,7 +104,6 @@ function UserNFTs({ signer }) {
   const totalPages = Math.ceil(nfts.length / nftsPerPage);
 
   async function handleList(info) {
-    console.log("✅ Listed NFT:", info);
     alert(`NFT ${info.name} listed at ${info.price}`);
     await loadAllNFTs(); // ✅ bắt buộc phải await
   }

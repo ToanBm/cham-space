@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ethers } from "ethers";
+import { ensureCorrectNetwork } from "../utils/connectWallet";
 import "../styles/ListingPopup.css";
 
 function ListingPopup({ collectionName, chain, nfts, onClose }) {
@@ -19,6 +20,11 @@ function ListingPopup({ collectionName, chain, nfts, onClose }) {
 
     try {
       setBuying(true);
+      
+      // Step 1: Ensure correct network before buying
+      await ensureCorrectNetwork(chain);
+      
+      // Step 2: Proceed with buying
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(nft.contract, nft.abi, signer);
@@ -31,7 +37,13 @@ function ListingPopup({ collectionName, chain, nfts, onClose }) {
       alert(`✅ Successfully bought NFT #${nft.tokenId}`);
     } catch (err) {
       console.error("❌ Buy failed:", err);
-      alert("❌ Buy failed. Check console for details.");
+      
+      // Show specific error message for network issues
+      if (err.message.includes("network")) {
+        alert("⚠️ " + err.message);
+      } else {
+        alert("❌ Buy failed. Check console for details.");
+      }
     } finally {
       setBuying(false);
     }

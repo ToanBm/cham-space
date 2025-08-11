@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BrowserProvider, Contract, ethers, JsonRpcProvider } from "ethers";
 import { nfts as nftList } from "../utils/nfts";
 import { marketNftAbi } from "../abi/marketNftAbi";
+import { ensureCorrectNetwork } from "../utils/connectWallet";
 import MintPopup from "./MintPopup";
 import ListingPanel from "./ListingPanel";
 import ListingPopup from "./ListingPopup";
@@ -29,6 +30,27 @@ function MarketPanel({ signer }) {
   const visibleNFTs = filteredNFTs.slice(page * nftsPerPage, (page + 1) * nftsPerPage);
   const hasPrev = page > 0;
   const hasNext = (page + 1) * nftsPerPage < filteredNFTs.length;
+
+  // New function: Handle mint button click with network switching
+  async function handleMintClick(nft) {
+    try {
+      // Step 1: Ensure correct network before opening popup
+      await ensureCorrectNetwork(nft.chain);
+      
+      // Step 2: Open mint popup
+      setSelectedNFT(nft);
+      
+    } catch (err) {
+      console.error("❌ Network switching failed:", err);
+      
+      // Show specific error message for network issues
+      if (err.message.includes("network")) {
+        alert("⚠️ " + err.message);
+      } else {
+        alert("❌ Failed to switch network: " + err.message);
+      }
+    }
+  }
 
   const collectionStatsAllChains = nftList.map((nft) => {
     const items = listingMap[nft.contract] || [];
@@ -219,7 +241,7 @@ function MarketPanel({ signer }) {
                     <div className="nft-mint-overlay">
                       <button
                         className="mint-button"
-                        onClick={() => setSelectedNFT(nft)}
+                        onClick={() => handleMintClick(nft)}
                       >
                         Mint
                       </button>

@@ -17,27 +17,37 @@ function getSupportedChainIds() {
 // Request network switch with better UX
 async function requestNetworkSwitch(chainInfo) {
     const eth = getEthereum();
-    if (!eth) throw new Error("No wallet provider found");
+    if (!eth) {
+        throw new Error("No wallet provider found");
+    }
 
     try {
         // Try to switch to the target chain
-        await eth.request({
+        const switchResult = await eth.request({
             method: "wallet_switchEthereumChain",
             params: [{ chainId: "0x" + chainInfo.chainId.toString(16) }],
         });
+        
+        return switchResult;
+        
     } catch (switchError) {
         // If chain not added, add it
         if (switchError.code === 4902) {
-            await eth.request({
-                method: "wallet_addEthereumChain",
-                params: [{
-                    chainId: "0x" + chainInfo.chainId.toString(16),
-                    chainName: chainInfo.chainName,
-                    nativeCurrency: chainInfo.nativeCurrency,
-                    rpcUrls: chainInfo.rpcUrls,
-                    blockExplorerUrls: chainInfo.blockExplorerUrls,
-                }],
-            });
+            try {
+                const addResult = await eth.request({
+                    method: "wallet_addEthereumChain",
+                    params: [{
+                        chainId: "0x" + chainInfo.chainId.toString(16),
+                        chainName: chainInfo.chainName,
+                        nativeCurrency: chainInfo.nativeCurrency,
+                        rpcUrls: chainInfo.rpcUrls,
+                        blockExplorerUrls: chainInfo.blockExplorerUrls,
+                    }],
+                });
+                return addResult;
+            } catch (addError) {
+                throw addError;
+            }
         } else {
             throw switchError;
         }
@@ -52,8 +62,6 @@ export async function connectWallet() {
     }
 
     try {
-        console.log("🔌 Connecting to wallet...");
-
         // Step 1: Request accounts
         const accounts = await eth.request({ method: "eth_requestAccounts" });
         if (!accounts || accounts.length === 0) {
@@ -67,27 +75,17 @@ export async function connectWallet() {
         const network = await provider.getNetwork();
         const currentChainId = Number(network.chainId);
 
-        console.log("✅ Wallet connected successfully");
-        
         // Step 3: Check network and auto-request switch if needed
         const supportedChains = getSupportedChainIds();
         const isSupported = supportedChains.includes(currentChainId);
         
-        console.log("🔍 Network check:", {
-            currentChainId,
-            supportedChains,
-            isSupported
-        });
-        
         if (!isSupported) {
-            console.log("⚠️ Connected to unsupported network, requesting switch...");
             // Auto-request network switch to the first supported network
             try {
                 const firstSupportedChain = Object.values(CHAINS)[0]; // Get first supported chain
                 await requestNetworkSwitch(firstSupportedChain);
-                console.log("✅ Network switch requested to:", firstSupportedChain.chainName);
             } catch (switchError) {
-                console.warn("⚠️ Could not request network switch:", switchError);
+                // Ignore switch errors during connection
             }
         }
         
@@ -99,8 +97,6 @@ export async function connectWallet() {
             isSupportedNetwork: isSupported
         };
     } catch (err) {
-        console.error("❌ Wallet connection failed:", err);
-        
         if (err.code === 4001) {
             throw new Error("Connection rejected by user");
         }
@@ -127,14 +123,12 @@ export async function getExistingWallet() {
         const isSupported = supportedChains.includes(currentChainId);
         
         if (!isSupported) {
-            console.warn(`⚠️ Connected to unsupported network: ${currentChainId}, requesting switch...`);
             // Auto-request network switch to the first supported network
             try {
                 const firstSupportedChain = Object.values(CHAINS)[0];
                 await requestNetworkSwitch(firstSupportedChain);
-                console.log("✅ Network switch requested to:", firstSupportedChain.chainName);
             } catch (switchError) {
-                console.warn("⚠️ Could not request network switch:", switchError);
+                // Ignore switch errors during existing wallet check
             }
         }
 
@@ -163,10 +157,7 @@ export async function switchNetwork(chainInfo) {
     try {
         // Switch to the specified chain
         await requestNetworkSwitch(chainInfo);
-        console.log("✅ Network switched to", chainInfo.chainName);
     } catch (err) {
-        console.error("❌ Network switch failed:", err);
-        
         // Provide more specific error messages
         if (err.code === 4001) {
             throw new Error("Network switch was rejected by user");
@@ -174,7 +165,6 @@ export async function switchNetwork(chainInfo) {
             throw new Error("Network not found. Please add it to your wallet first");
         } else if (err.message.includes("already")) {
             // Network is already the current network
-            console.log("ℹ️ Already on the requested network");
             return;
         } else {
             throw new Error("Failed to switch network. Please try switching manually in your wallet.");
@@ -192,5 +182,42 @@ export async function isWalletReady() {
         return true;
     } catch (error) {
         return false;
+    }
+}
+
+// New function: Check and auto-switch network for specific actions
+export async function ensureCorrectNetwork(requiredChainKey) {
+    const eth = getEthereum();
+    if (!eth) {
+        throw new Error("No wallet provider found");
+    }
+
+    try {
+        // Get current network
+        const provider = new BrowserProvider(eth);
+        const network = await provider.getNetwork();
+        const currentChainId = Number(network.chainId);
+        
+        // Get required chain info
+        const requiredChain = CHAINS[requiredChainKey];
+        if (!requiredChain) {
+            throw new Error(`Unknown chain: ${requiredChainKey}`);
+        }
+        
+        // Check if already on correct network
+        if (currentChainId === requiredChain.chainId) {
+            return true;
+        }
+        
+        // Request network switch
+        try {
+            await requestNetworkSwitch(requiredChain);
+            return true;
+        } catch (switchError) {
+            throw switchError;
+        }
+        
+    } catch (err) {
+        throw new Error(`Please switch to ${requiredChainKey} network to continue`);
     }
 }

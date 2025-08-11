@@ -5,6 +5,7 @@ import UserPopup from "./components/UserPopup";
 import WalletPanel from "./components/WalletPanel";
 import { marketNftAbi } from "./abi/marketNftAbi";
 import { ethers, Contract, BrowserProvider } from "ethers";
+import { ensureCorrectNetwork } from "./utils/connectWallet";
 import "./App.css";
 
 function App() {
@@ -13,6 +14,10 @@ function App() {
 
   async function handleList(info) {
     try {
+      // Step 1: Ensure correct network before listing
+      await ensureCorrectNetwork(info.chain);
+      
+      // Step 2: Proceed with listing
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new Contract(info.contract, marketNftAbi, signer);
@@ -26,7 +31,13 @@ function App() {
       alert(`✅ NFT ${info.name} listed at ${info.price}`);
     } catch (err) {
       console.error("❌ List failed:", err);
-      alert("❌ List failed: " + (err?.info?.error?.message || err.message));
+      
+      // Show specific error message for network issues
+      if (err.message.includes("network")) {
+        alert("⚠️ " + err.message);
+      } else {
+        alert("❌ List failed: " + (err?.info?.error?.message || err.message));
+      }
     }
   }
 

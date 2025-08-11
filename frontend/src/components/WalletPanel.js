@@ -92,7 +92,6 @@ function WalletPanel({ onWalletConnected }) {
             });
 
             eth.on("chainChanged", async (_chainId) => {
-                console.log("🔁 Chain changed:", _chainId);
                 await reconnect();
             });
         };
@@ -126,11 +125,10 @@ function WalletPanel({ onWalletConnected }) {
                         const [chainKey] = matchingChain;
                         setSelectedChain(chainKey);
                         localStorage.setItem("selectedChain", chainKey);
-                        console.log("✅ Auto-detected network:", chainKey);
                         setError(null);
                     }
                 } catch (networkError) {
-                    console.warn("⚠️ Could not auto-detect network:", networkError);
+                    // Ignore network detection errors
                 }
             }
         } catch (err) {
@@ -170,7 +168,6 @@ function WalletPanel({ onWalletConnected }) {
                         const [chainKey] = matchingChain;
                         setSelectedChain(chainKey);
                         localStorage.setItem("selectedChain", chainKey);
-                        console.log("✅ Auto-detected network:", chainKey);
                     }
                 } catch (networkError) {
                     console.warn("⚠️ Could not auto-detect network:", networkError);

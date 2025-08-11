@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserProvider, Contract, ethers } from "ethers";
 import { marketNftAbi } from "../abi/marketNftAbi";
+import { ensureCorrectNetwork } from "../utils/connectWallet";
 import "../styles/UserPopup.css";
 import { CHAINS } from "../utils/chains";
 
@@ -14,7 +15,6 @@ function UserPopup({ selectedNFT, onClose, onList }) {
     if (selectedNFT?.chain) {
       const symbol = CHAINS[selectedNFT.chain]?.nativeCurrency.symbol;
       if (symbol) {
-        console.log("🔁 Setting token symbol:", symbol);
         setTokenSymbol(symbol);
       }
     }
@@ -29,6 +29,11 @@ function UserPopup({ selectedNFT, onClose, onList }) {
 
     try {
       setLoading(true);
+      
+      // Step 1: Ensure correct network before listing
+      await ensureCorrectNetwork(selectedNFT.chain);
+      
+      // Step 2: Proceed with listing
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const user = await signer.getAddress();
@@ -50,7 +55,14 @@ function UserPopup({ selectedNFT, onClose, onList }) {
       onList({ ...selectedNFT, price });
       onClose();
     } catch (err) {
-      alert("❌ List failed: " + (err?.info?.error?.message || err.message));
+      console.error("❌ List failed:", err);
+      
+      // Show specific error message for network issues
+      if (err.message.includes("network")) {
+        alert("⚠️ " + err.message);
+      } else {
+        alert("❌ List failed: " + (err?.info?.error?.message || err.message));
+      }
     } finally {
       setLoading(false);
     }

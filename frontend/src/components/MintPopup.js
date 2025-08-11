@@ -56,16 +56,25 @@ function MintPopup({ nft, onClose, signer }) {
   }
 
   async function handleMint() {
-    if (!signer || !nft || !price || amount < 1) return;
+    if (!signer || !nft || !price || amount < 1) {
+      console.error("❌ Mint validation failed:", { hasSigner: !!signer, hasNft: !!nft, hasPrice: !!price, amount });
+      return;
+    }
+    
     try {
       setMinting(true);
+      
+      // Network is already checked in MintPanel, proceed directly with minting
       const contract = new Contract(nft.contract, nft.abi, signer);
-      const total = price * parseUnits(amount.toString(), 0); // ✅ dùng parseUnits
+      const total = price * parseUnits(amount.toString(), 0);
+      
       const tx = await contract.mint({ value: total });
       await tx.wait();
+      
       alert("✅ Mint success");
       onClose();
     } catch (err) {
+      console.error("❌ Mint failed:", err);
       alert("❌ Mint failed: " + (err?.info?.error?.message || err.message));
     } finally {
       setMinting(false);
